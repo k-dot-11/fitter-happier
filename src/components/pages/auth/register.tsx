@@ -19,6 +19,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useRegister } from "@/services/better-api";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -36,7 +37,7 @@ type FormData = {
 };
 
 export function SignupPage() {
-    const [stage, setStage] = useState(1);
+    const [stage, setStage] = useState(0);
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -48,6 +49,18 @@ export function SignupPage() {
         goal: "",
         experience: "",
     });
+
+    const onRegisterSuccess = (data: any) => {
+        toast.success("Registration successful");
+        console.log(data);
+    };
+
+    const onRegisterError = (error: any) => {
+        toast.error("Registration failed");
+        console.log(error.message);
+    };
+
+    const registerMutation = useRegister(onRegisterSuccess, onRegisterError);
 
     const validateFirstStage = () => {
         const { name, email, password, confirmPassword } = formData;
@@ -77,7 +90,11 @@ export function SignupPage() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(JSON.stringify(formData, null, 2));
+        registerMutation.mutate({
+            email: formData.email,
+            password: formData.password,
+            username: formData.name,
+        });
     };
 
     const handleBreadcrumbClick = () => {

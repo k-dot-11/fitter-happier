@@ -9,8 +9,37 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useLogin } from "@/services/better-api";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 export function LoginPage() {
+    // State handlers for email and password
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const onLoginSuccess = (_data : any) => {
+        toast.success("Login successful");
+        navigate("/");
+    };
+
+    const onLoginError = (error : any) => {
+        toast.error("Login failed due to " + error.message);
+    }
+
+    const mutationResult = useLogin(onLoginSuccess , onLoginError);
+    let navigate = useNavigate();
+    // Handle form submission
+    const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); // Prevent default form submission
+        mutationResult.mutate({
+            email,
+            password,
+        });
+    };
+
+
     return (
         <div className="flex flex-col px-5 pt-20 h-screen">
             <div className="flex flex-col items-center pb-12 gap-3">
@@ -29,7 +58,7 @@ export function LoginPage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <form>
+                        <form onSubmit={handleLoginSubmit}>
                             <div className="flex flex-col gap-6">
                                 <div className="grid gap-2">
                                     <Label htmlFor="email">Email</Label>
@@ -38,6 +67,10 @@ export function LoginPage() {
                                         type="email"
                                         placeholder="m@example.com"
                                         required
+                                        value={email}
+                                        onChange={(e) =>
+                                            setEmail(e.target.value)
+                                        }
                                     />
                                 </div>
                                 <div className="grid gap-2">
@@ -46,6 +79,10 @@ export function LoginPage() {
                                         id="password"
                                         type="password"
                                         required
+                                        value={password}
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
                                     />
                                 </div>
                                 <Button type="submit" className="w-full">

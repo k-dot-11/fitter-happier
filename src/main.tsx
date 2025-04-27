@@ -9,6 +9,7 @@ import { LoginPage } from "./components/pages/auth/login";
 import { SignupPage } from "./components/pages/auth/register";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
+import ProfilePage from "./components/pages/profile";
 
 const App = () => {
     const queryClient = new QueryClient();
@@ -19,6 +20,7 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<Layout />}>
                             <Route index element={<HomePage />} />
+                            <Route path="profile" element={<ProfilePage />} />
                         </Route>
                         <Route path="auth">
                             <Route path="login" element={<LoginPage />} />
