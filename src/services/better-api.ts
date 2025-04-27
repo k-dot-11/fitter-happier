@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 // Utility to get the auth token from localStorage
@@ -242,16 +242,39 @@ export const useUpdateWorkoutExercise = () =>
     });
 
 // --- Workout Set Hooks ---
+export const listGetWorkoutSets = (workoutExercises: any) => 
+    useQueries({
+        queries: workoutExercises.map((exercise) => ({
+            queryKey: ["workoutSets", exercise.id],
+            queryFn: async () => {
+                const response = await axiosInstance.get(`/workout-sets/workout-exercise/${exercise.id}`);
+                return response.data;
+            },
+            enabled: !!exercise.id, // Only run the query if exercise.id is truthy
+        })),
+    });
+
 
 export const useGetWorkoutSets = (workoutExerciseId: number) =>
     useQuery({
         queryKey: ["workoutSets", workoutExerciseId],
-        queryFn: () =>
-            axiosInstance.get(
+        queryFn: async () => {
+            const response = await axiosInstance.get(
                 `/workout-sets/workout-exercise/${workoutExerciseId}`
-            ),
+            );
+            return response.data; 
+        },
         enabled: !!workoutExerciseId,
     });
+// export const useGetWorkoutSets = (workoutExerciseId: number) =>
+//     useQuery({
+//         queryKey: ["workoutSets", workoutExerciseId],
+//         queryFn: () =>
+//             axiosInstance.get(
+//                 `/workout-sets/workout-exercise/${workoutExerciseId}`
+//             ),
+//         enabled: !!workoutExerciseId,
+//     });
 
 export const useCreateWorkoutSet = () =>
     useMutation({

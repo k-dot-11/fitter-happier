@@ -34,8 +34,18 @@ const workouts = [
         avgWeight: "35 kg",
     },
 ];
+interface Workout {
+    exercise: string;
+    sets: number;
+    avgWeight: string;
+}
 
-export function RecentWorkoutTable() {
+interface RecentWorkoutTableProps {
+    workouts: Workout[];
+}
+
+
+export function RecentWorkoutTable({ workouts }: RecentWorkoutTableProps) {
     return (
         <Table>
             <TableHeader>
