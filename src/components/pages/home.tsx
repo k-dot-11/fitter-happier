@@ -7,20 +7,6 @@ import { Card } from "../ui/card";
 
 const HomePage = () => {
     const name = "James Darmody";
-    const handleChangeTheme = () => {
-        document.documentElement.style.setProperty(
-            "--primary",
-            [
-                "hsl(142, 76%, 36%)",
-                "hsl(142, 71%, 45%)",
-                "hsl(142, 76%, 53%)",
-                "hsl(141, 84%, 60%)",
-                "hsl(143, 85%, 66%)",
-                "hsl(141, 79%, 85%)",
-                "hsl(142, 77%, 73%)",
-            ][Math.floor(Math.random() * 7)]
-        );
-    };
     return (
         <div className="flex flex-col gap-4 pt-24 px-4 pb-3">
             <div className="flex justify-between items-center">
@@ -45,7 +31,6 @@ const HomePage = () => {
                     </Button>
                 </div>
             </Card>
-            <Button onClick={handleChangeTheme}>Change theme</Button>
         </div>
     );
 };
