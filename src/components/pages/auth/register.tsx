@@ -19,22 +19,11 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { useRegister } from "@/services/better-api";
+import { RegisterFormData } from "@/model/auth-model";
+import { useRegister } from "@/services/hooks/auth-hooks";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-
-type FormData = {
-    name: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    dob: string;
-    height: string;
-    weight: string;
-    goal: string;
-    experience: string;
-};
 
 export function SignupPage() {
     const [stage, setStage] = useState(0);
@@ -50,14 +39,12 @@ export function SignupPage() {
         experience: "",
     });
 
-    const onRegisterSuccess = (data: any) => {
+    const onRegisterSuccess = (_data: any) => {
         toast.success("Registration successful");
-        console.log(data);
     };
 
-    const onRegisterError = (error: any) => {
+    const onRegisterError = (_error: any) => {
         toast.error("Registration failed");
-        console.log(error.message);
     };
 
     const registerMutation = useRegister(onRegisterSuccess, onRegisterError);
@@ -75,14 +62,17 @@ export function SignupPage() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData((prev: FormData) => ({
+        setFormData((prev: RegisterFormData) => ({
             ...prev,
             [name]: value,
         }));
     };
 
-    const handleSelectChange = (name: keyof FormData, value: string) => {
-        setFormData((prev: FormData) => ({
+    const handleSelectChange = (
+        name: keyof RegisterFormData,
+        value: string
+    ) => {
+        setFormData((prev: RegisterFormData) => ({
             ...prev,
             [name]: value,
         }));
@@ -94,6 +84,11 @@ export function SignupPage() {
             email: formData.email,
             password: formData.password,
             username: formData.name,
+            birthDate: formData.dob,
+            height: parseInt(formData.height),
+            weight: parseInt(formData.weight),
+            experienceLevel: formData.experience,
+            fitnessGoal: formData.goal,
         });
     };
 

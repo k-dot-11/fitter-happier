@@ -11,7 +11,7 @@ export function AIDropdown() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline">
+                <Button className="border-amber-400 border-1 bg-secondary text-foreground">
                     <Bot />
                 </Button>
             </DropdownMenuTrigger>

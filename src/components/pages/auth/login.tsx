@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useLogin } from "@/services/better-api";
+import { useLogin } from "@/services/hooks/auth-hooks";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";

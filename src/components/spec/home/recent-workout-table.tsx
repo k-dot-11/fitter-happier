@@ -4,75 +4,36 @@ import {
     TableCell,
     TableHead,
     TableHeader,
-    TableRow
+    TableRow,
 } from "@/components/ui/table";
+import { Exercise } from "@/model/workout-summary-model";
 
-const workouts = [
-    {
-        exercise: "Bench Press",
-        sets: 4,
-        avgWeight: "60 kg",
-    },
-    {
-        exercise: "Squat",
-        sets: 5,
-        avgWeight: "80 kg",
-    },
-    {
-        exercise: "Deadlift",
-        sets: 3,
-        avgWeight: "100 kg",
-    },
-    {
-        exercise: "Pull Ups",
-        sets: 4,
-        avgWeight: "Bodyweight",
-    },
-    {
-        exercise: "Shoulder Press",
-        sets: 3,
-        avgWeight: "35 kg",
-    },
-];
-interface Workout {
-    exercise: string;
-    sets: number;
-    avgWeight: string;
-}
-
-interface RecentWorkoutTableProps {
-    workouts: Workout[];
-}
-
-
-export function RecentWorkoutTable({ workouts }: RecentWorkoutTableProps) {
+export function RecentWorkoutTable({ workouts }: { workouts: Exercise[] }) {
     return (
         <Table>
             <TableHeader>
                 <TableRow>
                     <TableHead className="text-primary font-extrabold">Exercise</TableHead>
-                    <TableHead className="text-primary text-center font-extrabold">
-                        Sets
-                    </TableHead>
+                    <TableHead className="text-primary text-center font-extrabold">Sets</TableHead>
                     <TableHead className="text-primary text-right font-extrabold">
-                        Avg Weight
+                        Average
                     </TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {workouts.map((workout, idx) => (
-                    <TableRow key={workout.exercise + idx}>
-                        <TableCell className="font-medium">
-                            {workout.exercise}
-                        </TableCell>
-                        <TableCell className="text-center">
-                            {workout.sets}
-                        </TableCell>
-                        <TableCell className="text-right">
-                            {workout.avgWeight}
-                        </TableCell>
-                    </TableRow>
-                ))}
+                {workouts.map((workout) => {
+                    const avgSetWeight =
+                        workout.sets.reduce((acc, set) => acc + (set.weight ? set.weight : 0), 0) /
+                        workout.sets.length;
+
+                    return (
+                        <TableRow key={workout.id}>
+                            <TableCell className="font-medium">{workout.exerciseName}</TableCell>
+                            <TableCell className="text-center">{workout.sets.length}</TableCell>
+                            <TableCell className="text-right">{avgSetWeight.toFixed(0)}</TableCell>
+                        </TableRow>
+                    );
+                })}
             </TableBody>
         </Table>
     );
