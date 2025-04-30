@@ -1,12 +1,6 @@
 import { HeartPulseGradientIcon } from "@/assets/HeartPulseGradient";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLogin } from "@/services/hooks/auth-hooks";
@@ -19,16 +13,16 @@ export function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const onLoginSuccess = (_data : any) => {
+    const onLoginSuccess = (_data: any) => {
         toast.success("Login successful");
         navigate("/");
     };
 
-    const onLoginError = (error : any) => {
-        toast.error("Login failed due to " + error.message);
-    }
+    const onLoginError = (error: any) => {
+        toast.error(error.response?.data?.message ?? "An unknown error occurred");
+    };
 
-    const mutationResult = useLogin(onLoginSuccess , onLoginError);
+    const mutationResult = useLogin(onLoginSuccess, onLoginError);
     let navigate = useNavigate();
     // Handle form submission
     const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,7 +32,6 @@ export function LoginPage() {
             password,
         });
     };
-
 
     return (
         <div className="flex flex-col px-5 pt-20 h-screen">
@@ -68,9 +61,7 @@ export function LoginPage() {
                                         placeholder="m@example.com"
                                         required
                                         value={email}
-                                        onChange={(e) =>
-                                            setEmail(e.target.value)
-                                        }
+                                        onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
                                 <div className="grid gap-2">
@@ -80,9 +71,7 @@ export function LoginPage() {
                                         type="password"
                                         required
                                         value={password}
-                                        onChange={(e) =>
-                                            setPassword(e.target.value)
-                                        }
+                                        onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </div>
                                 <Button type="submit" className="w-full">

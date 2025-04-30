@@ -1,12 +1,12 @@
+import { WorkoutExerciseByWorkoutIdResponse } from "@/model/workout-details-model";
 import { useMutation, useQueries, useQuery, UseQueryResult } from "@tanstack/react-query";
-import { axiosInstance } from "./axios-instance";
 import {
     createWorkoutExercise,
     getWorkoutExercises,
     getWorkoutExercisesByWorkoutId,
     updateWorkoutExercise,
 } from "./apis/workout-exercises-api";
-import { WorkoutExerciseByWorkoutIdResponse } from "@/model/workout-details-model";
+import { axiosInstance } from "./axios-instance";
 
 export const useGetWorkoutExercises = (workoutId: number) =>
     useQuery({
@@ -15,7 +15,9 @@ export const useGetWorkoutExercises = (workoutId: number) =>
         enabled: !!workoutId,
     });
 
-export const useGetWorkoutExercisesByWorkoutId = (workoutId: string) : UseQueryResult<WorkoutExerciseByWorkoutIdResponse> =>
+export const useGetWorkoutExercisesByWorkoutId = (
+    workoutId: string
+): UseQueryResult<WorkoutExerciseByWorkoutIdResponse> =>
     useQuery({
         queryKey: ["workoutExercisesByWorkout", workoutId],
         queryFn: () => getWorkoutExercisesByWorkoutId(workoutId),
@@ -77,28 +79,4 @@ export const useUpdateWorkoutSet = () =>
 export const useDeleteWorkoutSet = () =>
     useMutation({
         mutationFn: (id: number) => axiosInstance.delete(`/workout-sets/${id}`),
-    });
-
-// --- AI Hooks ---
-
-export const useGenerateWorkoutPlan = () =>
-    useMutation({
-        mutationFn: (prompt: string) => axiosInstance.post("/ai/generate", prompt),
-    });
-
-export const useAnalyzeSets = () =>
-    useMutation({
-        mutationFn: (sets: any[]) => axiosInstance.post("/ai/analyze-sets", sets),
-    });
-
-export const useGetMotivationQuote = (mood: string) =>
-    useQuery({
-        queryKey: ["motivationQuote", mood],
-        queryFn: () => axiosInstance.get(`/ai/motivation-quote?mood=${mood}`),
-        enabled: !!mood,
-    });
-
-export const useSuggestImprovements = () =>
-    useMutation({
-        mutationFn: (sets: any[]) => axiosInstance.post("/ai/suggest-improvements", sets),
     });

@@ -1,10 +1,11 @@
-import { Bot, ChartColumnIncreasing, History, Plus, Quote } from "lucide-react";
+import { Bot, ChartColumnIncreasing, History, Plus } from "lucide-react";
+import { Link } from "react-router";
 import { HeroDonutChart } from "../charts/home/hero-donut";
 import { AIDropdown } from "../spec/home/ai-dropdown";
+import QuoteDialog from "../spec/home/quote-dialog";
 import HomeRecentWorkout from "../spec/home/recent-workout";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
-import { Link } from "react-router";
 
 const HomePage = () => {
     const name = "James Darmody";
@@ -50,9 +51,7 @@ const HomePage = () => {
                         <p>Feeling a bit lazy today?</p>
                         <p className="text-gray-500">Ask Greep to motivate you!</p>
                     </div>
-                    <Button variant="outline">
-                        <Quote className="text-primary" />
-                    </Button>
+                    <QuoteDialog />
                 </div>
             </Card>
         </div>

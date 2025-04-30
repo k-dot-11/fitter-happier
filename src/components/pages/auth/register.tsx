@@ -1,13 +1,7 @@
 import { HeartPulseGradientIcon } from "@/assets/HeartPulseGradient";
 import AuthBreadcrumb from "@/components/spec/auth/breadcrumbs";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -43,8 +37,8 @@ export function SignupPage() {
         toast.success("Registration successful");
     };
 
-    const onRegisterError = (_error: any) => {
-        toast.error("Registration failed");
+    const onRegisterError = (error: any) => {
+        toast.error(error.response?.data?.message ?? "An unknown error occurred");
     };
 
     const registerMutation = useRegister(onRegisterSuccess, onRegisterError);
@@ -68,10 +62,7 @@ export function SignupPage() {
         }));
     };
 
-    const handleSelectChange = (
-        name: keyof RegisterFormData,
-        value: string
-    ) => {
+    const handleSelectChange = (name: keyof RegisterFormData, value: string) => {
         setFormData((prev: RegisterFormData) => ({
             ...prev,
             [name]: value,
@@ -118,16 +109,12 @@ export function SignupPage() {
                     {stage === 0 ? (
                         <CardHeader>
                             <CardTitle>Register</CardTitle>
-                            <CardDescription>
-                                Create an account to get started.
-                            </CardDescription>
+                            <CardDescription>Create an account to get started.</CardDescription>
                         </CardHeader>
                     ) : (
                         <CardHeader>
                             <CardTitle>
-                                <AuthBreadcrumb
-                                    handleClick={handleBreadcrumbClick}
-                                />
+                                <AuthBreadcrumb handleClick={handleBreadcrumbClick} />
                             </CardTitle>
                         </CardHeader>
                     )}
@@ -161,9 +148,7 @@ export function SignupPage() {
                                         />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="password">
-                                            Password
-                                        </Label>
+                                        <Label htmlFor="password">Password</Label>
                                         <Input
                                             id="password"
                                             name="password"
@@ -174,9 +159,7 @@ export function SignupPage() {
                                         />
                                     </div>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="confirm-password">
-                                            Confirm Password
-                                        </Label>
+                                        <Label htmlFor="confirm-password">Confirm Password</Label>
                                         <Input
                                             id="confirm-password"
                                             name="confirmPassword"
@@ -236,10 +219,7 @@ export function SignupPage() {
                                         <Select
                                             value={formData.goal}
                                             onValueChange={(value) =>
-                                                handleSelectChange(
-                                                    "goal",
-                                                    value
-                                                )
+                                                handleSelectChange("goal", value)
                                             }
                                         >
                                             <SelectTrigger className="w-full">
@@ -247,12 +227,8 @@ export function SignupPage() {
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectGroup>
-                                                    <SelectItem value="gain">
-                                                        Gain it!
-                                                    </SelectItem>
-                                                    <SelectItem value="lose">
-                                                        Lose it!
-                                                    </SelectItem>
+                                                    <SelectItem value="gain">Gain it!</SelectItem>
+                                                    <SelectItem value="lose">Lose it!</SelectItem>
                                                     <SelectItem value="maintain">
                                                         Maintain it!
                                                     </SelectItem>
@@ -262,10 +238,7 @@ export function SignupPage() {
                                         <Select
                                             value={formData.experience}
                                             onValueChange={(value) =>
-                                                handleSelectChange(
-                                                    "experience",
-                                                    value
-                                                )
+                                                handleSelectChange("experience", value)
                                             }
                                         >
                                             <SelectTrigger className="w-full">
@@ -279,9 +252,7 @@ export function SignupPage() {
                                                     <SelectItem value="intermediate">
                                                         Intermediate
                                                     </SelectItem>
-                                                    <SelectItem value="freak">
-                                                        Gym Freak
-                                                    </SelectItem>
+                                                    <SelectItem value="freak">Gym Freak</SelectItem>
                                                     <SelectItem
                                                         value="manaal"
                                                         className="text-red-500"

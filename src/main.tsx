@@ -13,37 +13,40 @@ import ProfilePage from "./components/pages/profile";
 import CreateWorkoutPage from "./components/pages/workouts/create";
 import WorkoutHistoryPage from "./components/pages/workouts/history";
 import WorkoutDetailsPage from "./components/pages/workouts/details";
+import { AuthProvider } from "./utils/context/auth-provider";
 
 const App = () => {
     const queryClient = new QueryClient({
-        defaultOptions : {
-            queries : {
-                refetchOnWindowFocus : false
-            }
-        }
+        defaultOptions: {
+            queries: {
+                refetchOnWindowFocus: false,
+            },
+        },
     });
     return (
         <QueryClientProvider client={queryClient}>
-            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Layout />}>
-                            <Route index element={<HomePage />} />
-                            <Route path="profile" element={<ProfilePage />} />
-                            <Route path="workouts">
-                                <Route path="create" element={<CreateWorkoutPage />} />
-                                <Route index element={<WorkoutHistoryPage />} />
-                                <Route path=":workoutId" element={<WorkoutDetailsPage />} />
+            <BrowserRouter>
+                <AuthProvider>
+                    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                        <Routes>
+                            <Route path="/" element={<Layout />}>
+                                <Route index element={<HomePage />} />
+                                <Route path="profile" element={<ProfilePage />} />
+                                <Route path="workouts">
+                                    <Route path="create" element={<CreateWorkoutPage />} />
+                                    <Route index element={<WorkoutHistoryPage />} />
+                                    <Route path=":workoutId" element={<WorkoutDetailsPage />} />
+                                </Route>
                             </Route>
-                        </Route>
-                        <Route path="auth">
-                            <Route path="login" element={<LoginPage />} />
-                            <Route path="signup" element={<SignupPage />} />
-                        </Route>
-                    </Routes>
-                    <Toaster />
-                </BrowserRouter>
-            </ThemeProvider>
+                            <Route path="auth">
+                                <Route path="login" element={<LoginPage />} />
+                                <Route path="signup" element={<SignupPage />} />
+                            </Route>
+                        </Routes>
+                        <Toaster />
+                    </ThemeProvider>
+                </AuthProvider>
+            </BrowserRouter>
         </QueryClientProvider>
     );
 };

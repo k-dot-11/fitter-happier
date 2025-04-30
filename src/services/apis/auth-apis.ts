@@ -1,5 +1,11 @@
 import { axiosInstance } from "../axios-instance";
-import { setAuthToken } from "../utils";
+import {
+    getRefreshToken,
+    removeAuthToken,
+    removeRefreshToken,
+    setAuthToken,
+    setRefreshToken,
+} from "../utils";
 
 export const registerUserAndProfile = async ({
     email,
@@ -27,6 +33,7 @@ export const registerUserAndProfile = async ({
     });
 
     setAuthToken(registrationResponse.data.accessToken);
+    setRefreshToken(registrationResponse.data.refreshToken);
 
     const userProfileCreationResponse = await axiosInstance.post("/user-profiles", {
         username,
@@ -86,10 +93,30 @@ export const getCurrentUser = async () => {
     return response.data;
 };
 
-export const refreshToken = async (refreshToken: string) => {
+export const refreshToken = async () => {
+    const refreshToken = getRefreshToken();
+    if (!refreshToken) return;
     const response = await axiosInstance.post<{
-        token: string;
+        accessToken: string;
         refreshToken: string;
     }>("/auth/refresh", { refreshToken });
     return response.data;
+};
+
+export const loginWithEmailAndPassword = async ({
+    email,
+    password,
+}: {
+    email: string;
+    password: string;
+}) => {
+    removeAuthToken();
+    removeRefreshToken();
+    const response = await axiosInstance.post<{
+        accessToken: string;
+        refreshToken: string;
+    }>("/auth/login", { email, password });
+    setAuthToken(response.data.accessToken);
+    setRefreshToken(response.data.refreshToken);
+    return response;
 };

@@ -1,10 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import { getCurrentUser, getUserDetails, getUserProfileById } from "../apis/auth-apis";
-import { useMutation } from "@tanstack/react-query";
-import { setAuthToken } from "../utils";
-import { axiosInstance } from "../axios-instance";
-import { createUserProfile, refreshToken, registerUserAndProfile, updateUserProfile } from "../apis/auth-apis";
-
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+    createUserProfile,
+    getCurrentUser,
+    getUserDetails,
+    getUserProfileById,
+    loginWithEmailAndPassword,
+    refreshToken,
+    registerUserAndProfile,
+    updateUserProfile,
+} from "../apis/auth-apis";
 
 export const useGetUserDetails = () => {
     return useQuery({
@@ -28,14 +32,7 @@ export const useGetUserProfileById = (userId: number) =>
 
 export const useLogin = (onSuccess: any, onError: any) =>
     useMutation({
-        mutationFn: async ({ email, password }: { email: string; password: string }) => {
-            const response = await axiosInstance.post<{
-                accessToken: string;
-                refreshToken: string;
-            }>("/auth/login", { email, password });
-            setAuthToken(response.data.accessToken);
-            return response;
-        },
+        mutationFn: loginWithEmailAndPassword,
         onSuccess,
         onError,
     });

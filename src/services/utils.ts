@@ -13,3 +13,17 @@ export const removeAuthToken = (): void => {
     localStorage.removeItem("auth-token");
 };
 
+export const getRefreshToken = (): string | null => {
+    if (typeof window === undefined) return null;
+    return localStorage.getItem("refresh-token");
+};
+
+export const setRefreshToken = (refreshToken: string): void => {
+    if (typeof window === undefined) return;
+    localStorage.setItem("refresh-token", refreshToken);
+};
+
+export const removeRefreshToken = (): void => {
+    if (typeof window === "undefined") return; // Ensure this runs only in the browser
+    localStorage.removeItem("refresh-token");
+};

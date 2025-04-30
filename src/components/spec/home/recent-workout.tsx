@@ -51,7 +51,11 @@ const HomeRecentWorkout = () => {
                 </div>
             </div>
             <Separator />
-            <RecentWorkoutTable workouts={data?.exercises} />
+            {data && data.exercises.length === 0 ? (
+                <div className="flex justify-center w-full text-gray-500">No exercises logged</div>
+            ) : (
+                <RecentWorkoutTable workouts={data?.exercises} />
+            )}
         </Card>
     );
 };
