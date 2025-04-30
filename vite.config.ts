@@ -13,5 +13,12 @@ export default defineConfig({
     },
     server: {
         port: 3000,
+        proxy: {
+            "/api": {
+                target: "https://electric-nancee-k-dot-11-3cf6d05c.koyeb.app",
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ""),
+            },
+        },
     },
 });
