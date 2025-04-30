@@ -3,7 +3,7 @@ import { getAuthToken, setAuthToken, setRefreshToken } from "./utils";
 import { refreshToken } from "./apis/auth-apis";
 
 export const axiosInstance = axios.create({
-    baseURL: "/api", // Use relative path
+    baseURL: "https://electric-nancee-k-dot-11-3cf6d05c.koyeb.app", // Use relative path
     headers: {
         "Content-Type": "application/json",
     },
